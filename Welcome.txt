@@ -1,0 +1,11 @@
+========================
+====== The Bar Is Open! ======
+========================
+Welcome to the bar! I will be your bartender tonight! My name is Aksel.
+
+Due to Covid-19, going to the bar is not easy. This is where I come in, simulate being at the
+bar with the boys right here on discord.
+
+If you guys need me at anytime just yell out. "!bartender"
+
+If you want a spot at the table please say "!sit" and when all of you is seated can one of you confirm with "!seated"?
