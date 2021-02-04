@@ -62,10 +62,9 @@ async def on_ready():
 
 @client.command(pass_context=True)  # Bot join the voice channel
 async def start(ctx):
-    ##### This works ####
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
-    ##### This works ####
+
 
     vc.play(discord.FFmpegPCMAudio(executable="D:/Koding/Python/BarBot/ffmpeg-2021-02-02-git-2367affc2c-full_build/bin/ffmpeg.exe", source='D:/Koding/Python/BarBot/bar_ambiance.mp3'))
 
@@ -188,5 +187,5 @@ async def shot(message, victim):
             await message.channel.send(f"I have added one Shot to {vicMember}'s drinks")
 
 
-client.run('ODA2MjA1NDIwMzAwNzk1OTE0.YBmDTg.CsKwes6PBkJedA9gbUiQSZyk7CM')
+client.run('INSERT TOKEN')
 
