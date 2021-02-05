@@ -1,4 +1,3 @@
-
 import discord
 import asyncio
 from discord.ext import commands
@@ -10,21 +9,16 @@ import random
 import os
 
 
-##########################
-##### Shot challenge
-#     Buy fiter
-#     Drink tracker
-#
-#####
+# To do list
+# * Card game! Busride.
 
-#client = discord.Client() # This might ruin everything
 client = commands.Bot(command_prefix='!')
 
 rwelcome = open("Welcome.txt", "r")
 welcome = rwelcome.read()
 rwelcome.close()
 
-rhelplist = open("Commands.txt", "r")
+rhelplist = open("Commands.txt", "r") # Menu and comamnds list is not finished
 helplist = rhelplist.read()
 rhelplist.close()
 
@@ -35,10 +29,10 @@ rmenu.close()
 openDrinks = ["Tuborg", "IPA", "Stout", "Wine", "Cider", "Shot"]
 members = []
 isSeated = False
-URL = 'https://www.youtube.com/watch?v=ZSrVznkaMEM'  # Bar Ambiance
 
 
-class Member:  # Class for each member in the voice channel. Keeping track of sit sate and drink count
+
+class Member:  # Class for each member in the voice channel. Keeping track of sit state and drink count
 
     def __init__(self, name):
         self.name = name
@@ -57,16 +51,16 @@ class Member:  # Class for each member in the voice channel. Keeping track of si
 
 @client.event
 async def on_ready():
-    print('Bot online.')
+    print('Bot online.') # Gives the host confirmation that the bot is running correctly
 
 
 @client.command(pass_context=True)  # Bot join the voice channel
 async def start(ctx):
+    
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
 
-
-    vc.play(discord.FFmpegPCMAudio(executable="D:/Koding/Python/BarBot/ffmpeg-2021-02-02-git-2367affc2c-full_build/bin/ffmpeg.exe", source='D:/Koding/Python/BarBot/bar_ambiance.mp3'))
+    vc.play(discord.FFmpegPCMAudio(executable="PATHWAY TO YOUR ffmpeg.exe", source='PATHWAY TO YOUR bar_ambiance.mp3'))
 
     await ctx.message.channel.send(welcome)  # Outputs welcome text to current text channel
 
@@ -157,7 +151,7 @@ async def amidrunk(message):
 
 
 @client.command()
-async def shot(message, victim):
+async def shot(message, victim):  # Shot challenge. !shot Victim
     author = str(message.author).split("#", 1)
     vicMember = Member(victim)
     isVicMember = False
@@ -167,25 +161,28 @@ async def shot(message, victim):
             isVicMember = True
 
     if isVicMember is False:
-        await message.channel.send(f"I did not the who you challenged. Try using their Discord name and not nickname")
+        await message.channel.send(f"I did not know who you challenged. Try using their Discord name and not nickname. Or maybe they are not at the table")
 
     elif isVicMember is True:
         await message.channel.send(f"{author[0]} challenges {victim} for a shot. Roll 5 or 6 to win")
         randomroll = random.randint(1, 6)
         if randomroll > 4:
             await message.channel.send(f"{author[0]} rolls a {randomroll}! {victim} loses to do a shot!")
+            vicMember.add_drink("Shot")
+
+            await message.channel.send(f"I have added one Shot to {vicMember.name}'s drinks")
+        else:
+            await message.channel.send(f"{author[0]} rolls a {randomroll}... {author[0]} do a shot!")
             member = Member(author[0])
             for obj in members:
                 if obj.name == member.name:
                     member = obj
             member.add_drink("Shot")
-
             await message.channel.send(f"I have added one Shot to {author[0]}'s drinks")
-        else:
-            await message.channel.send(f"{author[0]} rolls a {randomroll}... {author[0]} do a shot!")
-            vicMember.add_drink("Shot")
-            await message.channel.send(f"I have added one Shot to {vicMember}'s drinks")
 
+@client.command(pass_context=True)
+async def busride(ctx):  # Not complete
+    await ctx.author.send('Ready for busride drinking game. Here are your cards:') # Sends private message to the author
 
-client.run('INSERT TOKEN')
+client.run('Insert Your Token Here!')
 
