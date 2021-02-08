@@ -1,0 +1,17 @@
+!start ------ The bar opens and you walk in the bar. You can hear bar ambiance and you will be greeted by a bartender
+
+!sit --------- When the bar opens the bartender will ask how many will sit at the table. All use this command
+
+!seated ---- Confirm all people have seated at the table. However if somebody is late the bartender will look for a extra chair
+
+!menu ----- You look at the menu for the bar
+
+!buy ------- "!buy <DRINK>" Pay the bartender for the beverage you desire
+
+!amidrunk - Ask the bartender if you are drunk. Beware the bartender counts how many drinks you've had
+
+!barhelp ------- Displays this lovely list
+
+!shot ----- "!shot <VICTIM>" challenge a friend for a shot. Roll dice, 5 or 6 victim has to take a shot, else challenger does a shot
+
+!leave ------ All leave the bar and can no longer hear the bar ambiance
