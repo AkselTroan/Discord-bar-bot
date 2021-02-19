@@ -14,19 +14,22 @@ import os
 
 client = commands.Bot(command_prefix='!')
 
+# Decided to have diffrent txt files for Welcome, Menu and commands msg.
+# Because if some users want to change msg's, they dont need to dive in the code
 rwelcome = open("Welcome.txt", "r")
 welcome = rwelcome.read()
 rwelcome.close()
 
-rhelplist = open("Commands.txt", "r") # Menu and comamnds list is not finished
+rhelplist = open("Commands.txt", "r")
 helplist = rhelplist.read()
 rhelplist.close()
 
-rmenu = open("Menu1.txt", "r")
+rmenu = open("Menu.txt", "r")
 menulist = rmenu.read()
 rmenu.close()
 
-openDrinks = ["Tuborg", "IPA", "Stout", "Wine", "Cider", "Shot"]
+# Currently valid drinks
+openDrinks = ["Tuborg", "IPA", "Stout", "Wine", "Cider", "Shot"] # Maybe add a 'Ask bartender to order a new drink to the bar' function?
 members = []
 isSeated = False
 
@@ -56,7 +59,7 @@ async def on_ready():
 
 @client.command(pass_context=True)  # Bot join the voice channel
 async def start(ctx):
-    
+
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
 
@@ -71,7 +74,7 @@ async def leave(ctx):
 
 
 @client.command()
-async def sit(message):  # This is the first command users will put. We will add every member to a list of objects
+async def sit(message):  # To keep track of whos at the table and track their drink count. Stores their username here
     author = str(message.author).split("#", 1)
     member = Member(author[0])
     duplicate = False
@@ -79,7 +82,7 @@ async def sit(message):  # This is the first command users will put. We will add
     global members
     global isSeated
 
-    for obj in members:
+    for obj in members: # Iterate through all current members at the table to check if they already is seated
         if obj.name == member.name:
             await message.channel.send("You're already seated!")
             duplicate = True
@@ -95,7 +98,7 @@ async def sit(message):  # This is the first command users will put. We will add
         await message.channel.send("Aaaa found a chair")
         await message.channel.send('Here you go, enjoy!')
         member.sits()
-        members.append(member)  # Append this new member to members
+        members.append(member)
 
 
 
@@ -109,7 +112,7 @@ async def seated(message):
             await message.channel.send('If you guys want to see a menu please let me know (!menu)')
 
         else:
-            await message.channel.send('You are already seated at the table. Are you already drunk?')
+            await message.channel.send('Already seated.')
 
 
 @client.command()
@@ -131,7 +134,7 @@ async def buy(message, drink):
         if obj.name == member.name:
             member = obj
 
-    if drink in openDrinks:
+    if drink in openDrinks: # Validate users input. 1 keep track of drinks. 2 Keep the users from inputting inappropriate submissions
         await message.channel.send(f"{author[0]} just bought a {drink}! Enjoy my dude")
         member.add_drink(drink)
     else:
@@ -151,7 +154,7 @@ async def amidrunk(message):
 
 
 @client.command()
-async def shot(message, victim):  # Shot challenge. !shot Victim
+async def shot(message, victim):  # Shot challenge. !shot <Victim>
     author = str(message.author).split("#", 1)
     vicMember = Member(victim)
     isVicMember = False
@@ -179,10 +182,12 @@ async def shot(message, victim):  # Shot challenge. !shot Victim
                     member = obj
             member.add_drink("Shot")
             await message.channel.send(f"I have added one Shot to {author[0]}'s drinks")
-
-@client.command(pass_context=True)
-async def busride(ctx):  # Not complete
-    await ctx.author.send('Ready for busride drinking game. Here are your cards:') # Sends private message to the author
-
+# ====================== WORK IN PROGRESS =========================== #
+#@client.command(pass_context=True)
+#async def busride(ctx):
+    # Currently working on implementing busride drinking. 
+    # The bot will send your pair of cards in private message and the bot will steer the flow of the game and manage the card of the table (these card will be printed in the chat)
+#    await ctx.author.send('Ready for busride drinking game. Here are your cards:') # Sends private message to the author
+# ====================== WORK IN PROGRESS  ========================== #
 client.run('Insert Your Token Here!')
 
