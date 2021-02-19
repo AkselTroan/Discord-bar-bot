@@ -1,13 +1,13 @@
 #############
   ## Tuborg ##
 #############
-This is the bartender favorite beer on a budget
+This is the bartender favorite beer on a budget.
 
 
 #############
   ## IPA ##
 #############
-A Refreshing beer.
+A Indian Pale Ale. A refreshing beer.
 
 #############
   ## Stout ##
@@ -18,13 +18,13 @@ A dark beer. Quite strong
 #############
   ## Wine##
 #############
-Delicious wine brewed from the finest grapes.
+Delicious wine brewed from the finest of grapes.
 
 
 #############
   ## Cider##
 #############
-Pear Cider
+A sweet pear Cider
 
 #############
   ## Shot##
