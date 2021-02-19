@@ -8,4 +8,14 @@ Start your night at in a voice channel with your mates. Head to the bar with !st
 
 
 # Installation
-At the time the bot is not running 24/7 on a server so you will need to run it on your own system. 
+At the time the bot is not running 24/7 on a server so you will need to run it on your own system.
+
+[FFmpeg](https://ffmpeg.org/download.html) and a mp3 (Preferbly with bar ambiance) is required to run the bot. 
+
+Edit the code, change the marked text to the pathway of your ffmpeg.exe and bar.mp3.
+![alt text](https://i.imgur.com/kvSTlw8.png)
+
+Last step is to acquire a bot token. Go to your discord developer page and make a new bot. Go through the setup, insert your token in the code. 
+
+<div style="text-align:center"><img src="https://i.imgur.com/GLG3MXO.png" /></div>
+
