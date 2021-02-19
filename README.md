@@ -10,6 +10,19 @@ Start your night at in a voice channel with your mates. Head to the bar with !st
 # Installation
 At the time the bot is not running 24/7 on a server so you will need to run it on your own system.
 
+Clone the repository
+```
+$ git clone https://github.com/AkselTroan/Discord-bar-bot.git
+```
+Change the working directory to Discord-Bar-Bot
+```
+$ cd Discord-Bar-Bot
+```
+Install the requirements
+```
+$ python3 -m pip install -r requirements.txt
+```
+
 [FFmpeg](https://ffmpeg.org/download.html) and a mp3 (Preferbly with bar ambiance) is required to run the bot. 
 
 Edit the code, change the marked text to the pathway of your ffmpeg.exe and bar.mp3.
@@ -19,3 +32,4 @@ Last step is to acquire a bot token. Go to your discord developer page and make 
 
 <div style="text-align:center"><img src="https://i.imgur.com/GLG3MXO.png" /></div>
 
+Last thing to do is to invite your bot to your desired server and run the script.
