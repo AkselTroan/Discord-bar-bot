@@ -182,6 +182,15 @@ async def shot(message, victim):  # Shot challenge. !shot <Victim>
                     member = obj
             member.add_drink("Shot")
             await message.channel.send(f"I have added one Shot to {author[0]}'s drinks")
+
+
+@client.command()
+async def never(ctx):  # Never have I ever
+    lines = open('NeverHaveIEver.txt').read().splitlines()
+    statement = random.choice(lines)
+    await ctx.channel.send(statement)
+
+
 # ====================== WORK IN PROGRESS =========================== #
 #@client.command(pass_context=True)
 #async def busride(ctx):
