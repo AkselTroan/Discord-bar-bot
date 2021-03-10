@@ -16,15 +16,15 @@ client = commands.Bot(command_prefix='!')
 
 # Decided to have diffrent txt files for Welcome, Menu and commands msg.
 # Because if some users want to change msg's, they dont need to dive in the code
-rwelcome = open("Welcome.txt", "r")
+rwelcome = open("Resources/Welcome.txt", "r")
 welcome = rwelcome.read()
 rwelcome.close()
 
-rhelplist = open("Commands.txt", "r")
+rhelplist = open("Resources/Commands.txt", "r")
 helplist = rhelplist.read()
 rhelplist.close()
 
-rmenu = open("Menu.txt", "r")
+rmenu = open("Resources/Menu.txt", "r")
 menulist = rmenu.read()
 rmenu.close()
 
@@ -186,7 +186,7 @@ async def shot(message, victim):  # Shot challenge. !shot <Victim>
 
 @client.command()
 async def never(ctx):  # Never have I ever
-    lines = open('NeverHaveIEver.txt').read().splitlines()
+    lines = open('Resources/NeverHaveIEver.txt').read().splitlines()
     statement = random.choice(lines)
     await ctx.channel.send(statement)
 
