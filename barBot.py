@@ -32,7 +32,7 @@ openDrinks = ["Tuborg", "IPA", "Stout", "Wine", "Cider", "Shot"] # Maybe add a '
 members = []
 isSeated = False
 muting = True # Default setting for "Too drunk" muting function
-
+playingRoF = False
 
 class Member:  # Class for each member in the voice channel. Keeping track of sit state and drink count
 
@@ -248,41 +248,49 @@ async def never(ctx):  # Never have I ever
     statement = random.choice(lines)
     await ctx.channel.send(statement)
 
-async def startRing(ctx, members):
-    global turn, ringMemb, membCount
-    turn = 0
-    membCount = len(members)
-    names = ""
-    for obj in members:
-        names = names + f"{obj.name}, "
-    newName = names[:-2]
-
-    await ctx.channel.send(f'Found members: {newName}')
-    ringMemb = newName.split(",", 1)
-    await ctx.channel.send(f'First to draw: {ringMemb[0]} (!draw)')
-
-
-
 
 @client.command()
 async def ring(ctx):  # Ring of fire
-    await ctx.channel.send(file=discord.File("Resources/Ring_of_Fire_Rules.png"))
-    await ctx.channel.send("Welcome to Ring Of Fire! See detailed rules above. Click on Open Original for the best quality")
-    
-    global members
-    await startRing(ctx, members)
+    global turn, ringMemb, membCount, playingRoF, members
 
+    if playingRoF is False:
+        await ctx.channel.send(file=discord.File("Resources/Ring_of_Fire_Rules.png"))
+        await ctx.channel.send("Welcome to Ring Of Fire! See detailed rules above. Click on Open Original for the best quality")
+        
+        turn = 0
+        membCount = len(members)
+        names = ""
+        for obj in members:
+            names = names + f"{obj.name}, "
+        newName = names[:-2]
+
+        await ctx.channel.send(f'Found members: {newName}')
+        ringMemb = newName.split(",", 1)
+        await ctx.channel.send(f'First to draw: {ringMemb[0]} (!draw)')
+
+
+        playingRoF = True
+
+    else:
+        await ctx.channel.send("There is already a game of Ring of Fire being played. Want to stop/restart? (!stopring)")
 
 @client.command()
 async def draw(ctx):
     global turn, ringMemb, membCount
     author = str(ctx.author).split("#", 1)
 
+    if turn == membCount:
+        turn = 0
+
+
+    if author[0] != ringMemb[turn]:  # If it now the users turn
+        await ctx.channel.send(f"Wait it is not your turn {author[0]}? Well... take a drink!")
+        pass
+    
     card = random.choice(os.listdir("Resources/Cards/")) # Chooses random card
     await ctx.channel.send(file=discord.File(f'Resources/Cards/{card}')) 
 
-    if turn == membCount:
-        turn = 0
+
 
     await ctx.channel.send(f"Next to draw: {ringMemb[turn]}")
 
@@ -326,6 +334,13 @@ async def draw(ctx):
         await ctx.channel.send(f"A is Waterfall: {author[0]} starts")
 
     turn = turn + 1
+
+
+@client.command()
+async def stopring(ctx):
+    global playingRoF
+    await ctx.channel.send("Stopping Ring of Fire round...")
+    playingRoF = False
 
 client.run("INSERT YOUR TOKEN HERE") # Secret token!
 
