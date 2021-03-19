@@ -16,4 +16,8 @@
 
 !never ------ Never have I ever. The bartender will make a never have I ever statement. If you have done it you must take a sip of your drink.
 
+!ring ----- Starts a round of Ring of Fire
+
+!draw ----- Draw a card when it is your turn in Ring of Fire
+
 !leave ------ All leave the bar and can no longer hear the bar ambiance.
