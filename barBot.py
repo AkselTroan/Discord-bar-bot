@@ -248,6 +248,84 @@ async def never(ctx):  # Never have I ever
     statement = random.choice(lines)
     await ctx.channel.send(statement)
 
+async def startRing(ctx, members):
+    global turn, ringMemb, membCount
+    turn = 0
+    membCount = len(members)
+    names = ""
+    for obj in members:
+        names = names + f"{obj.name}, "
+    newName = names[:-2]
+
+    await ctx.channel.send(f'Found members: {newName}')
+    ringMemb = newName.split(",", 1)
+    await ctx.channel.send(f'First to draw: {ringMemb[0]} (!draw)')
+
+
+
+
+@client.command()
+async def ring(ctx):  # Ring of fire
+    await ctx.channel.send(file=discord.File("Resources/Ring_of_Fire_Rules.png"))
+    await ctx.channel.send("Welcome to Ring Of Fire! See detailed rules above. Click on Open Original for the best quality")
+    
+    global members
+    await startRing(ctx, members)
+
+
+@client.command()
+async def draw(ctx):
+    global turn, ringMemb, membCount
+    author = str(ctx.author).split("#", 1)
+
+    card = random.choice(os.listdir("Resources/Cards/")) # Chooses random card
+    await ctx.channel.send(file=discord.File(f'Resources/Cards/{card}')) 
+
+    if turn == membCount:
+        turn = 0
+
+    await ctx.channel.send(f"Next to draw: {ringMemb[turn]}")
+
+    if card.startswith('2'):
+        await ctx.channel.send(f"2 is You: Choose who you want to take a drink")
+    
+    elif card.startswith('3'):
+        await ctx.channel.send(f"3 is Me: {author[0]} take a drink!")
+    
+    elif card.startswith('4'):
+        await ctx.channel.send("4 is Floor: Quick touch the Floor! Last one takes a drink!!")
+    
+    elif card.startswith('5'):
+        await ctx.channel.send("5 is Guys: All men drink")
+    
+    elif card.startswith('6'):
+        await ctx.channel.send("6 is Chicks: All women drink")
+    
+    elif card.startswith('7'):
+        await ctx.channel.send("7 is Heaven: Put your hands in the air! Last one takes a drink!!")
+    
+    elif card.startswith('8'):
+        await ctx.channel.send(f"8 is Mate: {author[0]} chooses someone that has to take a drink everytime {author[0]} does")
+    
+    elif card.startswith('9'):
+        await ctx.channel.send(f"9 is Rhyme: {author[0]} starts rhyming")
+    
+    elif card.startswith('10'):
+        await ctx.channel.send(f"10 is Categories: {author[0]} chooses category")
+    
+    elif card.startswith('J'):
+        await ctx.channel.send(f"J is Never have I ever: {author[0]} gives statements. Everyone starts with 3 livesHH")
+    
+    elif card.startswith('Q'):
+        await ctx.channel.send(f"Q is Question Master: Do not answer {author[0]}'s questions!!")
+    
+    elif card.startswith('K'):
+        await ctx.channel.send(f"K is Rule maker: {author[0]} makes a rule")
+    
+    elif card.startswith('A'):
+        await ctx.channel.send(f"A is Waterfall: {author[0]} starts")
+
+    turn = turn + 1
 
 client.run("INSERT YOUR TOKEN HERE") # Secret token!
 
