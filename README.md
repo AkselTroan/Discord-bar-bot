@@ -12,7 +12,7 @@ The bartender also has a set of Never Have I Ever questions. Just ask him for a 
 
 On your table you can see a deck of cards. The bartender knows the rules for Ring of Fire and he will gladly be the game master and guide you through the game.  
 
-> **_NOTE:_**  This is not at all a polished or finished script. Made this because I wanted to learn discord.py and get a fun little bot to play around with my friends.
+> **_NOTE:_**  This is not at all a polished or finished bot. Made this because I wanted to learn discord.py and get a fun little bot to play around with my friends.
 
 # Installation
 At the time the bot is not running 24/7 on a server so you will need to run it on your own system.
