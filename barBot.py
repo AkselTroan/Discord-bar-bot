@@ -283,7 +283,7 @@ async def draw(ctx):
         turn = 0
 
 
-    if author[0] != ringMemb[turn]:  # If it now the users turn
+    if author[0] != ringMemb[turn]:  # If it not the users turn
         await ctx.channel.send(f"Wait it is not your turn {author[0]}? Well... take a drink!")
         pass
     
