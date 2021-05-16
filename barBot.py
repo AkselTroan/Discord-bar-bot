@@ -60,12 +60,12 @@ async def on_ready():
 
 @client.command(pass_context=True)  # Bot join the voice channel
 async def start(ctx):
-    
+
     global muting, isSeated, members  # Resets settings and members
     muting = True
     isSeated = False
     members = []
-    
+
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
 
@@ -89,7 +89,7 @@ async def mute(ctx): # Change mute setting
     if muting is False:
         await ctx.channel.send("```diff\n+ Changing muting setting to True\n```")
         muting = True
-    
+
     else:
         await ctx.channel.send("```diff\n- Changing muting setting to False\n```")
         muting = False
@@ -168,7 +168,7 @@ async def buy(ctx, drink):
         else:
 
             await ctx.channel.send("That is enough! Take a walk. Come back in 1 minute")
-            
+
             # Member getting muted
             await discord.Member.edit(ctx.author, mute=True, reason="Too drunk")
             await asyncio.sleep(60)
@@ -194,15 +194,15 @@ async def amidrunk(message):
     for obj in members:
         if obj.name == member.name:
             member = obj
-    
+
     await message.channel.send(f"You've had {member.drink_count()} drink(s). These were: {', '.join(member.drink)}")
-    
+
     if member.drink_count() == 2 or member.drink_count() == 3:
         await message.channel.send("You are not to drunk you can stay a bit more")
-    
+
     elif member.drink_count() == 4 or member.drink_count() == 5:
         await message.channel.send("You're beginning look drunk. Slow down")
-    
+
     elif member.drink_count() == member.drink_count() == 6:
         await message.channel.send("You are drunk. Do not drink more")
 
@@ -256,7 +256,7 @@ async def ring(ctx):  # Ring of fire
     if playingRoF is False:
         await ctx.channel.send(file=discord.File("Resources/Ring_of_Fire_Rules.png"))
         await ctx.channel.send("Welcome to Ring Of Fire! See detailed rules above. Click on Open Original for the best quality")
-        
+
         turn = 0
         membCount = len(members)
         names = ""
@@ -286,7 +286,7 @@ async def draw(ctx):
     if author[0] != ringMemb[turn]:  # If it not the users turn
         await ctx.channel.send(f"Wait it is not your turn {author[0]}? Well... take a drink!")
         pass
-    
+
     card = random.choice(os.listdir("Resources/Cards/")) # Chooses random card
     await ctx.channel.send(file=discord.File(f'Resources/Cards/{card}')) 
 
@@ -296,40 +296,40 @@ async def draw(ctx):
 
     if card.startswith('2'):
         await ctx.channel.send(f"2 is You: Choose who you want to take a drink")
-    
+
     elif card.startswith('3'):
         await ctx.channel.send(f"3 is Me: {author[0]} take a drink!")
-    
+
     elif card.startswith('4'):
         await ctx.channel.send("4 is Floor: Quick touch the Floor! Last one takes a drink!!")
-    
+
     elif card.startswith('5'):
         await ctx.channel.send("5 is Guys: All men drink")
-    
+
     elif card.startswith('6'):
         await ctx.channel.send("6 is Chicks: All women drink")
-    
+
     elif card.startswith('7'):
         await ctx.channel.send("7 is Heaven: Put your hands in the air! Last one takes a drink!!")
-    
+
     elif card.startswith('8'):
         await ctx.channel.send(f"8 is Mate: {author[0]} chooses someone that has to take a drink everytime {author[0]} does")
-    
+
     elif card.startswith('9'):
         await ctx.channel.send(f"9 is Rhyme: {author[0]} starts rhyming")
-    
+
     elif card.startswith('10'):
         await ctx.channel.send(f"10 is Categories: {author[0]} chooses category")
-    
+
     elif card.startswith('J'):
         await ctx.channel.send(f"J is Never have I ever: {author[0]} gives statements. Everyone starts with 3 livesHH")
-    
+
     elif card.startswith('Q'):
         await ctx.channel.send(f"Q is Question Master: Do not answer {author[0]}'s questions!!")
-    
+
     elif card.startswith('K'):
         await ctx.channel.send(f"K is Rule maker: {author[0]} makes a rule")
-    
+
     elif card.startswith('A'):
         await ctx.channel.send(f"A is Waterfall: {author[0]} starts")
 
