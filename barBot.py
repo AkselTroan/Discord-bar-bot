@@ -7,9 +7,6 @@ import random
 import os
 
 
-# To do list
-# * Card game! Busride.
-
 client = commands.Bot(command_prefix='!')
 
 # Decided to have diffrent txt files for Welcome, Menu and commands msg.
@@ -60,17 +57,15 @@ async def on_ready():
 
 @client.command(pass_context=True)  # Bot join the voice channel
 async def start(ctx):
-
+    
     global muting, isSeated, members  # Resets settings and members
     muting = True
     isSeated = False
     members = []
-
+    
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
-
-    # The ffmpeg pathway is for linux. Different pathway if you are on Windows
-    vc.play(discord.FFmpegPCMAudio(executable="/bin/ffmpeg", source='PATHWAY TO YOUR MP3 FILE', before_options="-stream_loop -1"))
+    vc.play(discord.FFmpegPCMAudio(executable="/bin/ffmpeg", source='/PATHWAY/TO/YOUR/bar_ambiance.mp3', before_options="-stream_loop -1"))
 
     await ctx.message.channel.send(welcome)  # Outputs welcome text to current text channel
 
@@ -89,7 +84,7 @@ async def mute(ctx): # Change mute setting
     if muting is False:
         await ctx.channel.send("```diff\n+ Changing muting setting to True\n```")
         muting = True
-
+    
     else:
         await ctx.channel.send("```diff\n- Changing muting setting to False\n```")
         muting = False
@@ -168,7 +163,7 @@ async def buy(ctx, drink):
         else:
 
             await ctx.channel.send("That is enough! Take a walk. Come back in 1 minute")
-
+            
             # Member getting muted
             await discord.Member.edit(ctx.author, mute=True, reason="Too drunk")
             await asyncio.sleep(60)
@@ -194,15 +189,15 @@ async def amidrunk(message):
     for obj in members:
         if obj.name == member.name:
             member = obj
-
+    
     await message.channel.send(f"You've had {member.drink_count()} drink(s). These were: {', '.join(member.drink)}")
-
+    
     if member.drink_count() == 2 or member.drink_count() == 3:
         await message.channel.send("You are not to drunk you can stay a bit more")
-
+    
     elif member.drink_count() == 4 or member.drink_count() == 5:
         await message.channel.send("You're beginning look drunk. Slow down")
-
+    
     elif member.drink_count() == member.drink_count() == 6:
         await message.channel.send("You are drunk. Do not drink more")
 
@@ -256,16 +251,16 @@ async def ring(ctx):  # Ring of fire
     if playingRoF is False:
         await ctx.channel.send(file=discord.File("Resources/Ring_of_Fire_Rules.png"))
         await ctx.channel.send("Welcome to Ring Of Fire! See detailed rules above. Click on Open Original for the best quality")
-
+        
         turn = 0
         membCount = len(members)
-        names = ""
+        names = ''
         for obj in members:
-            names = names + f"{obj.name}, "
+            names = names + f'{obj.name}, '
         newName = names[:-2]
 
         await ctx.channel.send(f'Found members: {newName}')
-        ringMemb = newName.split(",", 1)
+        ringMemb = newName.split(",")
         await ctx.channel.send(f'First to draw: {ringMemb[0]} (!draw)')
 
 
@@ -276,64 +271,70 @@ async def ring(ctx):  # Ring of fire
 
 @client.command()
 async def draw(ctx):
-    global turn, ringMemb, membCount
+    global turn, ringMemb, membCount, playingRoF
     author = str(ctx.author).split("#", 1)
 
-    if turn == membCount:
-        turn = 0
+    if membCount == 1:
+        await ctx.channel.send("Only one member joined. Can not play by yourself, get some friends. Aborting...")
+        playingRoF = False
 
 
-    if author[0] != ringMemb[turn]:  # If it not the users turn
+    if author[0].replace(" ", "") == ringMemb[turn].replace(" ", "") and playingRoF is True:  # If it is the user turn.
+        
+        
+        card = random.choice(os.listdir("Resources/Cards/")) # Chooses random card
+        await ctx.channel.send(file=discord.File(f'Resources/Cards/{card}')) 
+
+
+        if card.startswith('2'):
+            await ctx.channel.send(f"2 is You: Choose who you want to take a drink")
+        
+        elif card.startswith('3'):
+            await ctx.channel.send(f"3 is Me: {author[0]} take a drink!")
+        
+        elif card.startswith('4'):
+            await ctx.channel.send("4 is Floor: Quick touch the Floor! Last one takes a drink!!")
+        
+        elif card.startswith('5'):
+            await ctx.channel.send("5 is Guys: All men drink")
+        
+        elif card.startswith('6'):
+            await ctx.channel.send("6 is Chicks: All women drink")
+        
+        elif card.startswith('7'):
+            await ctx.channel.send("7 is Heaven: Put your hands in the air! Last one takes a drink!!")
+        
+        elif card.startswith('8'):
+            await ctx.channel.send(f"8 is Mate: {author[0]} chooses someone that has to take a drink everytime {author[0]} does")
+        
+        elif card.startswith('9'):
+            await ctx.channel.send(f"9 is Rhyme: {author[0]} starts rhyming")
+        
+        elif card.startswith('10'):
+            await ctx.channel.send(f"10 is Categories: {author[0]} chooses category")
+        
+        elif card.startswith('J'):
+            await ctx.channel.send(f"J is Never have I ever: {author[0]} gives statements. Everyone starts with 3 lives")
+        
+        elif card.startswith('Q'):
+            await ctx.channel.send(f"Q is Question Master: Do not answer {author[0]}'s questions!!")
+        
+        elif card.startswith('K'):
+            await ctx.channel.send(f"K is Rule maker: {author[0]} makes a rule")
+        
+        elif card.startswith('A'):
+            await ctx.channel.send(f"A is Waterfall: {author[0]} starts")
+
+        turn = turn + 1
+
+        if turn == membCount:
+            turn = 0
+        
+        await ctx.channel.send(f"Next to draw: {ringMemb[turn]}")
+
+    elif playingRoF is True:
         await ctx.channel.send(f"Wait it is not your turn {author[0]}? Well... take a drink!")
-        pass
-
-    card = random.choice(os.listdir("Resources/Cards/")) # Chooses random card
-    await ctx.channel.send(file=discord.File(f'Resources/Cards/{card}')) 
-
-
-
-    await ctx.channel.send(f"Next to draw: {ringMemb[turn]}")
-
-    if card.startswith('2'):
-        await ctx.channel.send(f"2 is You: Choose who you want to take a drink")
-
-    elif card.startswith('3'):
-        await ctx.channel.send(f"3 is Me: {author[0]} take a drink!")
-
-    elif card.startswith('4'):
-        await ctx.channel.send("4 is Floor: Quick touch the Floor! Last one takes a drink!!")
-
-    elif card.startswith('5'):
-        await ctx.channel.send("5 is Guys: All men drink")
-
-    elif card.startswith('6'):
-        await ctx.channel.send("6 is Chicks: All women drink")
-
-    elif card.startswith('7'):
-        await ctx.channel.send("7 is Heaven: Put your hands in the air! Last one takes a drink!!")
-
-    elif card.startswith('8'):
-        await ctx.channel.send(f"8 is Mate: {author[0]} chooses someone that has to take a drink everytime {author[0]} does")
-
-    elif card.startswith('9'):
-        await ctx.channel.send(f"9 is Rhyme: {author[0]} starts rhyming")
-
-    elif card.startswith('10'):
-        await ctx.channel.send(f"10 is Categories: {author[0]} chooses category")
-
-    elif card.startswith('J'):
-        await ctx.channel.send(f"J is Never have I ever: {author[0]} gives statements. Everyone starts with 3 livesHH")
-
-    elif card.startswith('Q'):
-        await ctx.channel.send(f"Q is Question Master: Do not answer {author[0]}'s questions!!")
-
-    elif card.startswith('K'):
-        await ctx.channel.send(f"K is Rule maker: {author[0]} makes a rule")
-
-    elif card.startswith('A'):
-        await ctx.channel.send(f"A is Waterfall: {author[0]} starts")
-
-    turn = turn + 1
+        
 
 
 @client.command()
@@ -342,5 +343,6 @@ async def stopring(ctx):
     await ctx.channel.send("Stopping Ring of Fire round...")
     playingRoF = False
 
-client.run("INSERT YOUR TOKEN HERE") # Secret token!
+
+client.run('INSERT YOUR TOKEN HERE') # Secret token!
 
